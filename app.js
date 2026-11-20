@@ -10,7 +10,8 @@
     "Battle Planet", "Armored Alliance", "Geogan Rising", "Evolutions", "Legends"
   ];
   const ATRIBUTOS = ["Pyrus", "Aquos", "Ventus", "Subterra", "Haos", "Darkus", "Aurelus"];
-  const TIPOS = ["Ability", "Gate", "Character", "Evo", "Normal", "Command", "Special"];
+  const TIPOS = ["Ability", "Gate", "Character", "Evo", "Normal", "Command", "Special", "Bakugan", "Action", "Baku-Gear"];
+  const MATERIALES = ["Metalizada", "Estándar (no metalizada)"];
 
   const WA = "56956592453";
   const WA_ICO = `<svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.5.7 4.8 1.9 6.8L3 29l6.8-2.1c1.9 1 4 1.6 6.2 1.6 7 0 12.7-5.7 12.7-12.7S23 3 16 3zm0 23.2c-2 0-3.9-.6-5.5-1.6l-.4-.2-4 1.2 1.3-3.9-.3-.4a10.4 10.4 0 1 1 8.9 4.9zm5.7-7.8c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.5 8.5 0 0 1-4.2-3.7c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1.1 2.5 5.9 5.9 0 0 0 1.2 3.1c.2.2 2 3.1 4.9 4.3 1.8.8 2.5.8 3.4.7.6-.1 1.8-.7 2-1.4s.3-1.3.2-1.4-.3-.2-.6-.3z"/></svg>`;
@@ -26,6 +27,7 @@
   const selRareza = document.getElementById("rareza");
   const selIdioma = document.getElementById("idioma");
   const selAnio = document.getElementById("anio");
+  const selMaterial = document.getElementById("material");
 
   let data = { cartas: [] };
   let attrSel = "";
@@ -73,6 +75,8 @@
     fillSelect(selRareza, "Rareza", unique("rareza"));
     fillSelect(selIdioma, "Idioma", unique("idioma"));
     fillSelect(selAnio, "Año", unique("anio"), true);
+    const mats = [...MATERIALES, ...unique("material_tipo").filter(m => !MATERIALES.includes(m))];
+    fillSelect(selMaterial, "Material", mats);
 
     const counts = new Map();
     data.cartas.forEach(c => {
@@ -122,6 +126,7 @@
           ${c.idioma ? `<span class="tag idioma">${esc(c.idioma)}</span>` : ""}
           ${c.estado ? `<span class="tag estado">Estado: ${esc(c.estado)}</span>` : ""}
           ${c.rareza ? `<span class="tag rareza">${esc(c.rareza)}</span>` : ""}
+          ${c.material_tipo ? `<span class="tag material">${esc(c.material_tipo)}</span>` : ""}
           <span class="tag stock">Stock: ${qty(c)}</span>
         </div>
         <dl>
@@ -133,8 +138,12 @@
           ${c.tipo ? `<dt>Tipo</dt><dd>${esc(c.tipo)}</dd>` : ""}
           ${attr ? `<dt>Atributo</dt><dd>${esc(attr)}</dd>` : ""}
           ${c.hsp != null && c.hsp !== "" ? `<dt>HSP</dt><dd>${esc(c.hsp)}</dd>` : ""}
+          ${c.energy != null && c.energy !== "" ? `<dt>Energía</dt><dd>${esc(c.energy)}</dd>` : ""}
+          ${c.b_power != null && c.b_power !== "" ? `<dt>B-Power</dt><dd>${esc(c.b_power)}</dd>` : ""}
+          ${c.damage != null && c.damage !== "" ? `<dt>Daño</dt><dd>${esc(c.damage)}</dd>` : ""}
+          ${c.bakucores ? `<dt>BakuCores</dt><dd>${esc(c.bakucores)}</dd>` : ""}
           ${c.bonos ? `<dt>Bonos</dt><dd>${esc(c.bonos)}</dd>` : ""}
-          ${c.material ? `<dt>Material</dt><dd>${esc(c.material)}</dd>` : ""}
+          ${c.material || c.material_tipo ? `<dt>Material</dt><dd>${esc(c.material || c.material_tipo)}</dd>` : ""}
           ${c.idioma ? `<dt>Idioma</dt><dd>${esc(c.idioma)}</dd>` : ""}
           <dt>Stock</dt><dd><strong>${qty(c)}</strong></dd>
         </dl>
@@ -159,8 +168,9 @@
       .filter(c => !selRareza.value || trim(c.rareza) === selRareza.value)
       .filter(c => !selIdioma.value || trim(c.idioma) === selIdioma.value)
       .filter(c => !selAnio.value || String(c.anio || "") === selAnio.value)
+      .filter(c => !selMaterial.value || trim(c.material_tipo) === selMaterial.value)
       .filter(c => !attrSel || trim(c.atributo) === attrSel)
-      .filter(c => !q || norm([c.nombre, c.nombre_en, c.codigo, c.serie, c.set, c.codigo_set, c.numero, c.anio, c.tipo, c.atributo, c.rareza, c.idioma, c.estado, c.efecto, c.nota, c.hsp, c.bonos, c.material, c.codigo_set].join(" ")).includes(q))
+      .filter(c => !q || norm([c.nombre, c.nombre_en, c.codigo, c.serie, c.set, c.codigo_set, c.numero, c.anio, c.tipo, c.atributo, c.rareza, c.idioma, c.estado, c.efecto, c.nota, c.hsp, c.bonos, c.material, c.material_tipo, c.codigo_set, c.energy, c.b_power, c.damage, c.bakucores].join(" ")).includes(q))
       .sort(sorters[sort.value] || sorters["precio-desc"]);
     const catalogEmpty = data.cartas.length === 0;
     vacio.hidden = !catalogEmpty;
@@ -193,7 +203,7 @@
 
   search.addEventListener("input", render);
   sort.addEventListener("change", render);
-  [selSerie, selTipo, selRareza, selIdioma, selAnio].forEach(el => el.addEventListener("change", render));
+  [selSerie, selTipo, selRareza, selIdioma, selAnio, selMaterial].forEach(el => el.addEventListener("change", render));
   attrBox.addEventListener("click", e => {
     const b = e.target.closest(".chip"); if (!b) return;
     attrSel = b.dataset.attr || "";

@@ -41,7 +41,7 @@ SERIES = [
     "Legends",
 ]
 ATRIBUTOS = ["Pyrus", "Aquos", "Ventus", "Subterra", "Haos", "Darkus", "Aurelus"]
-TIPOS = ["Ability", "Gate", "Character", "Evo", "Normal", "Command", "Special"]
+TIPOS = ["Ability", "Gate", "Character", "Evo", "Normal", "Command", "Special", "Bakugan", "Action", "Baku-Gear"]
 EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".tif", ".tiff", ".bmp", ".heic"}
 
 
