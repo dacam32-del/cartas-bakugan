@@ -10,7 +10,7 @@
     "Battle Planet", "Armored Alliance", "Geogan Rising", "Evolutions", "Legends"
   ];
   const ATRIBUTOS = ["Pyrus", "Aquos", "Ventus", "Subterra", "Haos", "Darkus", "Aurelus"];
-  const TIPOS = ["Ability", "Gate", "Character", "Evo", "Normal", "Command", "Special", "Bakugan", "Action", "Baku-Gear", "Flip"];
+  const TIPOS = ["Ability", "Gate", "Character", "Evo", "Normal", "Command", "Special", "Bakugan", "Action", "Baku-Gear", "Flip", "Gate Trainer"];
   const MATERIALES = ["Metalizada", "Estándar (no metalizada)", "Foil holo (no metalizada)"];
 
   const WA = "56956592453";
