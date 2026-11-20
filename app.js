@@ -134,6 +134,7 @@
           ${attr ? `<dt>Atributo</dt><dd>${esc(attr)}</dd>` : ""}
           ${c.hsp != null && c.hsp !== "" ? `<dt>HSP</dt><dd>${esc(c.hsp)}</dd>` : ""}
           ${c.bonos ? `<dt>Bonos</dt><dd>${esc(c.bonos)}</dd>` : ""}
+          ${c.material ? `<dt>Material</dt><dd>${esc(c.material)}</dd>` : ""}
           ${c.idioma ? `<dt>Idioma</dt><dd>${esc(c.idioma)}</dd>` : ""}
           <dt>Stock</dt><dd><strong>${qty(c)}</strong></dd>
         </dl>
@@ -159,7 +160,7 @@
       .filter(c => !selIdioma.value || trim(c.idioma) === selIdioma.value)
       .filter(c => !selAnio.value || String(c.anio || "") === selAnio.value)
       .filter(c => !attrSel || trim(c.atributo) === attrSel)
-      .filter(c => !q || norm([c.nombre, c.nombre_en, c.codigo, c.serie, c.set, c.codigo_set, c.numero, c.anio, c.tipo, c.atributo, c.rareza, c.idioma, c.estado, c.efecto, c.nota, c.hsp, c.bonos, c.codigo_set].join(" ")).includes(q))
+      .filter(c => !q || norm([c.nombre, c.nombre_en, c.codigo, c.serie, c.set, c.codigo_set, c.numero, c.anio, c.tipo, c.atributo, c.rareza, c.idioma, c.estado, c.efecto, c.nota, c.hsp, c.bonos, c.material, c.codigo_set].join(" ")).includes(q))
       .sort(sorters[sort.value] || sorters["precio-desc"]);
     const catalogEmpty = data.cartas.length === 0;
     vacio.hidden = !catalogEmpty;
